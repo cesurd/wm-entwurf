@@ -154,7 +154,10 @@
   .pakete { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .stage { min-height: 0; padding: 16px; }
+  .stage { min-height: 0; padding: 46px 16px 16px; }
+  .stage__tag { top: 12px; right: 12px; }
+  .route { flex-wrap: wrap; row-gap: 4px; }
+  .route small { flex-basis: 100%; }
   .phone { width: 30%; min-width: 78px; border-width: 4px; padding: 7px 6px; }
   .adcalc__flow b { font-size: 1.15rem; }
   .vs { grid-template-columns: 1fr; }

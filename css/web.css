@@ -100,6 +100,15 @@
 .serp__list li .l { height: 5px; border-radius: 3px; background: var(--line); margin-top: 5px; width: 90%; }
 .serp__list li.is-you { background: var(--petrol-wash); }
 .serp__list li.is-you .t { color: var(--petrol-deep); font-weight: 650; }
+/* Orte-Block (SEO-Ortsseiten): Karte mit Stecknadeln, darunter die Einträge */
+.orte__karte { position: relative; height: 92px; border-radius: 8px; margin-bottom: 8px; overflow: hidden;
+  background: linear-gradient(115deg, transparent 0 46%, #fff 46% 48%, transparent 48%), linear-gradient(10deg, transparent 0 58%, #fff 58% 60%, transparent 60%),
+              linear-gradient(135deg, #dfe9e7 0 40%, #cfdedb 40% 60%, #e8efee 60%); }
+.orte__karte i { position: absolute; width: 13px; height: 13px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #8fa3a6; }
+.orte__karte i.is-you { background: var(--petrol); width: 15px; height: 15px; }
+.stage--orte .serp__list li .t { color: var(--ink); font-weight: 600; }
+.stage--orte .serp__list li .d { margin-top: 2px; }
+.orte__mehr { margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--line); font-size: .78rem; color: #1a4fbf; text-align: center; }
 
 /* ---------- GEO: KI-Antwort ---------- */
 .chat { display: flex; flex-direction: column; gap: 10px; }
@@ -141,6 +150,7 @@
 .paket li::before { content: ''; flex: none; width: 7px; height: 7px; border-radius: 2px; background: var(--petrol); transform: translateY(8px); }
 .paket .preis { margin-top: auto; padding-top: 12px; font-size: .9rem; font-weight: 600; color: var(--petrol-deep); }
 .vs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.vs--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .vs > div { border-top: 2px solid var(--ink); padding-top: 18px; }
 .vs > div.is-us { border-top-color: var(--petrol); }
 .vs h3 { font-size: 1.1rem; margin-bottom: 10px; }
@@ -168,3 +178,4 @@
 /* Korrektur Fuß (betrifft auch die Live-Seite): 1fr-Spalten ließen lange Wörter die Breite sprengen (320/360 px) */
 .ftr__grid > * { min-width: 0; }
 @media (max-width: 600px) { .ftr__grid, .ftr__grid--7 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ftr__brand { grid-column: 1 / -1; } .ftr a { overflow-wrap: anywhere; } }
+@media (max-width: 900px) { .vs--3 { grid-template-columns: 1fr; } }

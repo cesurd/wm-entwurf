@@ -8,7 +8,8 @@
      .stage.stage--calc    Rechner Budget → Klicks → Anfragen → Aufträge  → Google Ads
    Bewegung nur ohne prefers-reduced-motion; ohne JS bleibt der Endzustand sichtbar. */
 
-.stage { position: relative; align-self: stretch; min-height: 440px; margin: 0 0 56px; border-radius: var(--r-l);
+:root { --r-kachel: 12px; } /* Radius der Kacheln (Dennis 01.11.2026); eingebettete Karten 10 px */
+.stage { position: relative; align-self: stretch; min-height: 440px; margin: 0 0 56px; border-radius: var(--r-kachel);
   background: var(--night); color: #cfe2e5; overflow: hidden; isolation: isolate; padding: clamp(18px, 3vw, 32px);
   display: flex; flex-direction: column; justify-content: center; gap: 14px; padding-top: 50px; }
 .stage--build .chips { max-width: 66%; }
@@ -139,9 +140,12 @@
 
 /* ---------- Inhaltsbausteine ---------- */
 .figure { margin: 0; }
-.figure img { width: 100%; border-radius: var(--r-l); border: 1px solid var(--line); }
+.figure img { width: 100%; height: auto; border-radius: var(--r-kachel); }
+/* Text mit Beispielbild daneben: Bild in Originalgröße statt seitenbreit */
+.text-bild { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: clamp(32px, 5vw, 80px); align-items: start; }
+.text-bild .figure { margin: 4px 0 0; }
 .figure figcaption { font-size: .86rem; color: var(--ink-3); margin-top: 10px; }
-.pakete { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line-strong); border: 1px solid var(--line-strong); border-radius: var(--r-l); overflow: hidden; }
+.pakete { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line-strong); border: 1px solid var(--line-strong); border-radius: var(--r-kachel); overflow: hidden; }
 .paket { background: #fff; padding: 26px 24px 28px; display: flex; flex-direction: column; gap: 10px; }
 .paket h3 { font-size: 1.15rem; }
 .paket p { font-size: .95rem; color: var(--ink-2); }
@@ -179,3 +183,4 @@
 .ftr__grid > * { min-width: 0; }
 @media (max-width: 600px) { .ftr__grid, .ftr__grid--7 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ftr__brand { grid-column: 1 / -1; } .ftr a { overflow-wrap: anywhere; } }
 @media (max-width: 900px) { .vs--3 { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .text-bild { grid-template-columns: 1fr; } .text-bild .figure { max-width: 460px; } }

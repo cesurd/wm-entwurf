@@ -19,7 +19,7 @@
       reihe.forEach(function (x, i) { x.style.transform = 'translateY(' + ((i - li.indexOf(x)) * h) + 'px)'; x.querySelector('.n').textContent = i + 1; });
     }
     if (still) { setze(nach); return; }
-    setze(von);
+    li.forEach(function (x) { x.style.transition = 'none'; }); setze(von); ul.offsetHeight; li.forEach(function (x) { x.style.transition = ''; });
     sichtbar(ul, function () { setTimeout(function () { setze(nach); }, 700); });
   });
 
@@ -29,13 +29,17 @@
     if (!t) return;
     var voll = t.getAttribute('data-text');
     if (still) { t.textContent = voll; return; }
+    // Der volle Text bleibt unsichtbar stehen und hält die Endhöhe; der getippte Text läuft darüber (kein Layoutsprung)
     t.textContent = ''; if (src) src.style.opacity = 0;
-    var caret = document.createElement('span'); caret.className = 'caret'; t.after(caret);
+    var geist = document.createElement('span'); geist.className = 'tipp-geist'; geist.setAttribute('aria-hidden', 'true'); geist.textContent = voll;
+    var lauf = document.createElement('span'); lauf.className = 'tipp-lauf';
+    var text = document.createTextNode(''); var caret = document.createElement('span'); caret.className = 'caret';
+    lauf.appendChild(text); lauf.appendChild(caret); t.appendChild(geist); t.appendChild(lauf);
     sichtbar(b, function () {
       var i = 0;
       (function tipp() {
         i += Math.max(1, Math.round(voll.length / 140));
-        t.textContent = voll.slice(0, i);
+        text.nodeValue = voll.slice(0, i);
         if (i < voll.length) setTimeout(tipp, 18);
         else { caret.remove(); if (src) { src.style.transition = 'opacity .5s'; src.style.opacity = 1; } }
       })();
@@ -185,3 +189,124 @@
   if (f.form) f.form.addEventListener('reset', function () { setTimeout(setze, 0); });
 })();
 /*/BX:kontakt*/
+
+/*BX:webdesign:erklaer*/
+/* webdesign · erklaer A: keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:webdesign:erklaer*/
+
+/*BX:webdesign:leistung*/
+/* webdesign · leistung A: keine eigene Logik. Pilot-Baustein leistung-A läuft über bx-basis.js (.is-in) und bento.css. */
+/*/BX:webdesign:leistung*/
+
+/*BX:vergleich*/
+/* Vergleich A: Paare (nur zwei Spalten, nur mit Maus) – Zeile überfahren hebt das Gegenstück der anderen Kachel hervor */
+(function () {
+  if (!window.matchMedia || !matchMedia('(hover: hover)').matches) return;
+  [].forEach.call(document.querySelectorAll('.sk-vergleich-paar'), function (s) {
+    var ul = s.querySelectorAll('.sk-vergleich-t ul');
+    [].forEach.call(ul, function (u) {
+      [].forEach.call(u.children, function (li, i) {
+        var set = function (an) { [].forEach.call(ul, function (v) { if (v.children[i]) v.children[i].classList.toggle('is-paar', an); }); };
+        li.addEventListener('mouseenter', function () { set(true); });
+        li.addEventListener('mouseleave', function () { set(false); });
+      });
+    });
+  });
+})();
+/*/BX:vergleich*/
+
+/*BX:webdesign:vorort*/
+/* webdesign · vorort A: keine eigene Logik. Der Flugweg der Ansprechpartner-Marke (Pilot vorort-A) steht schon in site/js/web.js, Sichtbarkeit setzt bx-basis.js. */
+/*/BX:webdesign:vorort*/
+
+/*BX:webdesign-wolfsburg:erklaer*/
+/* erklaer A: keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:webdesign-wolfsburg:erklaer*/
+
+/*BX:webdesign-wolfsburg:leistung*/
+/* leistung A: keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft im Pilot-CSS (bento.css). */
+/*/BX:webdesign-wolfsburg:leistung*/
+
+/*BX:webdesign-wolfsburg:bild*/
+/* bild A: keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:webdesign-wolfsburg:bild*/
+
+/*BX:webdesign-wolfsburg:vorort*/
+/* vorort A: keine eigene Logik. Die Flugbahn der Ansprechpartner-Marke berechnet der Pilot-Block BX:vorort in web.js, .is-in setzt bx-basis.js. */
+/*/BX:webdesign-wolfsburg:vorort*/
+
+/*BX:seo:erklaer*/
+/* seo erklaer-A: Ablauf über bx-basis (data-bx-live → .is-in), kein eigenes Skript nötig. */
+/*/BX:seo:erklaer*/
+
+/*BX:seo:leistung*/
+/* seo leistung-A: Ablauf über bx-basis (data-bx-live → .is-in), kein eigenes Skript nötig. */
+/*/BX:seo:leistung*/
+
+/*BX:seo:bild*/
+/* seo bild-A: Ablauf über bx-basis (data-bx-live → .is-in), kein eigenes Skript nötig. */
+/*/BX:seo:bild*/
+
+/*BX:seo:vorort*/
+/* seo vorort-A: Ablauf über bx-basis (data-bx-live → .is-in), kein eigenes Skript nötig. */
+/*/BX:seo:vorort*/
+
+/*BX:seo-braunschweig:erklaer*/
+/* erklaer A: Ablauf läuft über bx-basis (data-bx-live → .is-in), kein eigenes Skript nötig. */
+/*/BX:seo-braunschweig:erklaer*/
+
+/*BX:seo-braunschweig:leistung*/
+/* leistung A: Startversatz der Begriffe (vom Platz in der Liste zur Seite), Bewegung selbst per CSS nur mit transform */
+(function () {
+  var ui = document.querySelector('.sk-sbs-leistung-ui'); if (!ui) return;
+  var chips = [].slice.call(ui.querySelectorAll('.sk-sbs-leistung-slots [data-k]'));
+  function setze() {
+    chips.forEach(function (c) {
+      var g = ui.querySelector('.sk-sbs-leistung-pool [data-k="' + c.getAttribute('data-k') + '"]'); if (!g) return;
+      c.style.transform = 'none';
+      var a = c.getBoundingClientRect(), b = g.getBoundingClientRect();
+      c.style.transform = '';
+      c.style.setProperty('--dx', Math.round(b.left - a.left) + 'px');
+      c.style.setProperty('--dy', Math.round(b.top - a.top) + 'px');
+    });
+  }
+  setze(); addEventListener('load', setze); addEventListener('resize', setze);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(setze);
+})();
+/*/BX:seo-braunschweig:leistung*/
+
+/*BX:seo-braunschweig:bild*/
+/* bild A: Ablauf läuft über bx-basis (data-bx-live → .is-in), kein eigenes Skript nötig. */
+/*/BX:seo-braunschweig:bild*/
+
+/*BX:seo-braunschweig:zusammenarbeit*/
+/* zusammenarbeit A: ruhige Sektion ohne Bewegung außer dem Einblenden über bx-basis, kein eigenes Skript nötig. */
+/*/BX:seo-braunschweig:zusammenarbeit*/
+
+/*BX:seo-braunschweig:vorort*/
+/* vorort A: Flugweg der Ansprechpartner-Marke setzt der Pilot-Baustein in /js/web.js (BX:vorort), kein eigenes Skript nötig. */
+/*/BX:seo-braunschweig:vorort*/
+
+/*BX:geo-optimierung:erklaer*/
+/* geo erklaer A: kein eigenes Skript nötig. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:geo-optimierung:erklaer*/
+
+/*BX:geo-optimierung:leistung*/
+/* geo leistung A: kein eigenes Skript nötig. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:geo-optimierung:leistung*/
+
+/*BX:geo-optimierung:vorort*/
+/* geo vorort A: kein eigenes Skript nötig. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:geo-optimierung:vorort*/
+
+/*BX:google-ads-betreuung:erklaer*/
+/* erklaer A (Google Ads): keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:google-ads-betreuung:erklaer*/
+
+/*BX:google-ads-betreuung:leistung*/
+/* leistung A (Google Ads): keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Bewegung läuft in style.css. */
+/*/BX:google-ads-betreuung:leistung*/
+
+/*BX:google-ads-betreuung:eignung*/
+/* eignung A (Google Ads): keine eigene Logik. Sichtbarkeit (.is-in) setzt bx-basis.js, die Statuslampen schalten in style.css. */
+/*/BX:google-ads-betreuung:eignung*/
